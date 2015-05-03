@@ -4,7 +4,8 @@ import urllib.request
 import urllib.parse
 from bs4 import BeautifulSoup
 
-maxPages = 2
+startPage = 0
+endPage = 152
 url = 'http://www.twssstories.com/best?page='
 exp = '"(.*?)"' # Get anything between quotes
 r = re.compile(exp)
@@ -15,10 +16,12 @@ def strip(text):
     return text.translate(str.maketrans('', '', string.punctuation)).lower().strip()
 
 def processStory(story):
-    return strip('\n'.join(r.findall(story.string)))
+    text = ' '.join(story.stripped_strings) 
+    return strip( '\n'.join(r.findall(text)) )
 
 def getStories(page):
-    if page <= maxPages:
+    print('On page ' + str(page))
+    if page <= endPage:
         if page == 0:
             stories = ''
         else:
@@ -26,12 +29,15 @@ def getStories(page):
         html = urllib.request.urlopen(url + str(page))
         soup = BeautifulSoup(html)
         stories += '\n'.join(list(processStory(story) for story in soup.select('.content.clear-block p')))
-        page += 1
         stories += getStories(page + 1)
         return stories
     else:
         return ''
 
-allStories = getStories(0)
-f.write(allStories)
-print(allStories)
+def main():
+    allStories = getStories(startPage)
+    f.write(allStories)
+    print(allStories)
+
+if __name__ == '__main__':
+    main()
