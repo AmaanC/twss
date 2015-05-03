@@ -33,7 +33,7 @@ def getStories(page):
             stories = '\n'
         html = urllib.request.urlopen(url + str(page))
         soup = BeautifulSoup(html)
-        storyList = filter(lambda x: bool(x) and len(x) < charLimit, list(processStory(story) for story in soup.select('.content.clear-block p')))
+        storyList = filter(lambda x: bool(x) and len(x) > charLimit, list(processStory(story) for story in soup.select('.content.clear-block p')))
         stories += '\n'.join(storyList)
         stories += getStories(page + 1)
         return stories
