@@ -15,9 +15,13 @@ f = open(outputFile, 'w')
 def strip(text):
     return text.translate(str.maketrans('', '', string.punctuation)).lower().strip()
 
+def clean(text):
+    text = text.replace('”', '"').replace('“', '"')
+    return strip( '\n'.join(r.findall(text)) )
+
 def processStory(story):
     text = ' '.join(story.stripped_strings) 
-    return strip( '\n'.join(r.findall(text)) )
+    return clean(text)
 
 def getStories(page):
     print('On page ' + str(page))
@@ -28,7 +32,8 @@ def getStories(page):
             stories = '\n'
         html = urllib.request.urlopen(url + str(page))
         soup = BeautifulSoup(html)
-        stories += '\n'.join(list(processStory(story) for story in soup.select('.content.clear-block p')))
+        storyList = filter(bool, list(processStory(story) for story in soup.select('.content.clear-block p')))
+        stories += '\n'.join(storyList)
         stories += getStories(page + 1)
         return stories
     else:
