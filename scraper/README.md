@@ -1,0 +1,1 @@
+Running `python scraper.py` will scrape http://twssstories.com and "clean" the data. It extracts only the part inside quotes, and normalizes the text (lowercase, strip grammar).
