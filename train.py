@@ -5,6 +5,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.cross_validation import KFold
 from sklearn.metrics import confusion_matrix, f1_score
 import numpy as np
+import string
 
 TWSS = 'twss_joke'
 REG = 'regular'
@@ -40,7 +41,24 @@ pipeline = Pipeline([
     ('vectorizer',  CountVectorizer()),
     ('classifier',  MultinomialNB()) ])
 
-examples = ['how big is it', 'put it in here', 'how is that even a joke']
+def clean(text):
+    return text.translate(str.maketrans('', '', string.punctuation)).lower().strip()
+
+examples = [
+    'oh god, not the floppy',
+    'im frustratingly close',
+    'dont go too deep man',
+    'or am I just being slow again',
+    'i was reading this book',
+    'that is huge',
+    'if onload is called as copy, yes.',
+    'the context changed.',
+    'I wish I got more time to work on this',
+    'I suppose you are good, but I don\'t know',
+    'Can I ask a question about jQuery?',
+    'it comes off as rude.'
+]
+examples = list(map(clean, examples))
 
 k_fold = KFold(n=len(data), n_folds=6)
 scores = []
@@ -63,4 +81,8 @@ print('Total entries classified:', len(data))
 print('Score:', sum(scores)/len(scores))
 print('Confusion matrix:')
 print(confusion)
-print(list(zip(examples, pipeline.predict(examples))))
+
+print('\n')
+predictions = zip(examples, pipeline.predict(examples))
+for ex, pred in predictions:
+    print('{}: {}'.format(ex, pred))
