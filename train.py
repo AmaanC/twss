@@ -36,7 +36,7 @@ data = DataFrame({'text': [], 'class': []})
 for path, classification in SOURCES:
     data = data.append(buildDataFrame(path, classification))
 
-# data = data.reindex(np.random.permutation(data.index))
+data = data.reindex(np.random.permutation(data.index))
 pipeline = Pipeline([
     ('vectorizer',  CountVectorizer()),
     ('classifier',  MultinomialNB()) ])
