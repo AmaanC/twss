@@ -1,3 +1,4 @@
+# Scrape from That's What She Said Stories
 import re
 import string
 import urllib.request
@@ -6,11 +7,11 @@ from bs4 import BeautifulSoup
 
 startPage = 0
 endPage = 152
-charLimit = 5 # Anything less than 5 characters should be excluded
+charLimit = 10 # Anything less than 5 characters should be excluded
 url = 'http://www.twssstories.com/best?page='
 exp = '"(.*?)"' # Get anything between quotes
 r = re.compile(exp)
-outputFile = '../data/twss.txt'
+outputFile = '../data/twsss.txt'
 f = open(outputFile, 'w')
 
 def strip(text):
@@ -27,7 +28,7 @@ def processStory(story):
 def getStories(page):
     print('On page ' + str(page))
     if page <= endPage:
-        if page == 0:
+        if page == startPage:
             stories = ''
         else:
             stories = '\n'
