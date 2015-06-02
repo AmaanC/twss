@@ -13,7 +13,6 @@ SOURCES = [
     ('data/twsss.txt', TWSS),
     ('data/twst.txt', TWSS),
     ('data/twss-office.txt', TWSS),
-    # ('data/gr.txt', REG),
     ('data/fml.txt', REG)
 ]
 
@@ -64,4 +63,4 @@ print('Total entries classified:', len(data))
 print('Score:', sum(scores)/len(scores))
 print('Confusion matrix:')
 print(confusion)
-print(pipeline.predict(examples))
+print(list(zip(examples, pipeline.predict(examples))))
