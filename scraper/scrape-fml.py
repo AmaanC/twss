@@ -1,4 +1,4 @@
-# Scrape from That's What She Said Stories
+# Scrape from FML
 import string
 import urllib.request
 import urllib.parse
