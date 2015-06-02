@@ -36,9 +36,9 @@ def getStories(page):
         return ''
 
 def main():
+    print(__name__)
     allStories = getStories(startPage)
     f.write(allStories)
     print(allStories)
 
-if __name__ == '__main__':
-    main()
+main()
